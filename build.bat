@@ -1,4 +1,5 @@
 @echo on
+rem test
 
 rem Use all the cores when building
 set CL=/MP
