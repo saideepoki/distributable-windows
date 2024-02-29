@@ -1,4 +1,4 @@
-name: "MetaCall Distributable Windows Release"
+name: MetaCall Distributable Windows Release
 
 on:
   push:
@@ -6,19 +6,46 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build:
+  checkout_and_build_core:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v2
-      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Checkout MetaCall Core Repository
+        uses: actions/checkout@v2
+        with:
+          repository: metacall/core
+          ref: ${{ github.event.ref }}
+
+      - name: Set up Visual Studio Developer Prompt
+        uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64
-      - name: Build
+
+      - name: Build MetaCall Core
         shell: powershell
         run: .\build.bat
-      - name: Test
+
+      - name: Test MetaCall Core
         shell: powershell
         run: .\test.bat
+
+  checkout_and_build_distributable:
+    runs-on: windows-2019
+    steps:
+      - name: Checkout Current Distributable Repository
+        uses: actions/checkout@v2
+
+      - name: Build Distributable
+        shell: powershell
+        run: .\build.bat
+
+      - name: Test Distributable
+        shell: powershell
+        run: .\test.bat
+
+  release:
+    needs: [checkout_and_build_core, checkout_and_build_distributable]
+    runs-on: ubuntu-latest
+    steps:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
