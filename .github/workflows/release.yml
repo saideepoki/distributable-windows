@@ -12,7 +12,7 @@ jobs:
       - name: Checkout MetaCall Core Repository
         uses: actions/checkout@v2
         with:
-          repository: metacall/core
+          repository: saideepoki/metacall-core
           ref: ${{ github.event.ref }}
 
       - name: Set up Visual Studio Developer Prompt
