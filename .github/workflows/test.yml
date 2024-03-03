@@ -21,11 +21,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-msvc-devcmd-x64-
 
-    - name: Set environment variables
-      run: |
-        echo "BUILD_ARCH=x64" >> $env:
-        echo "TEST_FLAGS=--verbose" >> $env:
-
     - name: Build
       shell: powershell
       run: .\build.bat
