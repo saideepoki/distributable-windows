@@ -34,11 +34,3 @@ jobs:
       shell: powershell
       run: .\test.bat
 
-    - name: Report errors (Optional)
-      uses: EnricoMi/github-actions-notify@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}  # Replace with your secrets management token
-        message: "MetaCall Distributable Windows Test ${{ job.status }}"
-        success_message: "Tests passed successfully!"
-        failure_message: "Tests failed! See the workflow log for details."
-
