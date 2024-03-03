@@ -5,27 +5,17 @@ on:
   pull_request:
   push:
 
-  
-
 jobs:
   test:
     runs-on: windows-2019
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Use cached MSVC DevCmd
-      uses: actions/cache@v2
-      with:
-        path: C:\Program Files\Microsoft Visual Studio\2019\BuildTools\VC\Tools\MSVC\14.29.30133\bin\HostX64\x64
-        key: ${{ runner.os }}-msvc-devcmd-x64-${{ hashFiles('**/build.bat') }}
-        restore-keys: |
-          ${{ runner.os }}-msvc-devcmd-x64-
-
-    - name: Build
-      shell: powershell
-      run: .\build.bat
-
-    - name: Test
-      shell: powershell
-      run: .\test.bat
-
+      - uses: actions/checkout@v2
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64
+      - name: Build
+        shell: powershell
+        run: .\build.bat
+      - name: Test
+        shell: powershell
+        run: .\test.bat
